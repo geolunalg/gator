@@ -9,6 +9,20 @@ import (
 	"github.com/google/uuid"
 )
 
+func handlerReset(s *state, cmd command) error {
+	if len(cmd.Args) != 0 {
+		return fmt.Errorf("usage: %v <name>", cmd.Name)
+	}
+
+	err := s.db.Reset(context.Background())
+	if err != nil {
+		return fmt.Errorf("couldn't reset table: %w", err)
+	}
+
+	fmt.Println("User table successfully reset:")
+	return nil
+}
+
 func handlerRegister(s *state, cmd command) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("usage: %v <name>", cmd.Name)
