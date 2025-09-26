@@ -20,7 +20,7 @@ func handlerListUsers(s *state, cmd command) error {
 	}
 
 	for _, user := range users {
-		if user == s.cfg.CurrentUserName {
+		if user.Name == s.cfg.CurrentUserName {
 			fmt.Printf("* %s (current)\n", user)
 		} else {
 			fmt.Printf("* %s\n", user)
@@ -36,7 +36,7 @@ func handlerReset(s *state, cmd command) error {
 		return fmt.Errorf("usage: reset")
 	}
 
-	err := s.db.Reset(context.Background())
+	err := s.db.DeleteUsers(context.Background())
 	if err != nil {
 		return fmt.Errorf("couldn't reset table: %w", err)
 	}
